@@ -1,5 +1,5 @@
 /*
-LoRa_voltages_RX_TX_wifi_8bit — compact LoRa+WiFi ping-pong transceiver (Heltec WiFi LoRa 32 V3)
+LoRa_voltages_RX_TX_wifi_8bit — compact voltages monitor LoRa+WiFi ping-pong transceiver (Heltec WiFi LoRa 32 V3)
 -----------------------------------------------------------------------------------
 - 8-byte plaintext payload (no AES):
   [0]=0xA5, [1]=nodeId (uint8), [2]=txCounter (uint8), [3]=lastPeerRssi (int8),
