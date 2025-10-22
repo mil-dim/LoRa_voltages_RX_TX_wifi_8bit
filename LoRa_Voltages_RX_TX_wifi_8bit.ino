@@ -583,6 +583,17 @@ void loop(){
     if (rxLen >= 8) {
       uint8_t nid, cnt; int8_t peerFB; float v1,v2,v3; uint8_t sw;
       if (parsePayload((uint8_t*)rxBuf, nid, cnt, peerFB, v1, v2, v3, sw)) {
+
+    //  Ignore our own packets (e.g., echoed by a repeater)
+    if (nid == (uint8_t)NODE_ID) {
+      if (debug) Serial.println("     self-packet (repeater echo) -> dropped");
+      // optional: stay in RX rather than continuing ping-pong
+      state = STATE_RX;
+      lastStateChangeMs = millis();
+      // do NOT touch lastRxRSSI / peerTxCount / peerRssiFB / myLastPeerRSSI
+      goto PARSE_DONE;
+    }
+
         remoteV1=v1; remoteV2=v2; remoteV3=v3;
         peerTxCount=cnt; peerRssiFB=peerFB; lastRxRSSI = rxRssiTmp;
         remoteSwitchBits = sw;  // NEW
@@ -609,6 +620,7 @@ void loop(){
     } else {
       if (debug) Serial.println("     too small (<8), ignored");
     }
+    PARSE_DONE: ;
   }
 
   yield();
